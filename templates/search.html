@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy.me</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .btn {
+          background-color: rgb(235, 77, 85);
+          border: none;
+          color: white;
+          padding: 12px 16px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        .btn:hover {
+            background-color: rgb(255, 0, 0);
+        }
+        .scrollit {
+            overflow:scroll;
+            height:250px;
+        }
+    </style>
+</head>
+<body>
+<br>    
+<div class= "content">
+    <div class = "container">
+        <div class="row">
+        <div class="col-lg-7 ml-auto">
+            <form action="/" method="POST">
+            <button class="btn"><i class="fa fa-home"></i> Home</button>
+            </form>
+        </div>
+
+        <div class="col-lg-4 ml-auto">
+            <h4>Hi, {{nm}}</h4>
+        </div>
+        </div>
+        <br><br>
+        <div class = "scrollit">
+            <table class="table table-striped">
+        
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>SPO2%</th>
+                    <th>Temperature</th>
+                </tr>
+                </thead>    
+                <tbody>
+                    {% for row in data %}    
+                        <tr>
+                            <td>{{row[0]}}</td>
+                            <td>{{row[1]}}</td>
+                            <td>{{row[2]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br><br>
+    <div class = "container">
+        <canvas id= "lineChart" width="1150" height="575"></canvas> 
+        <script>
+            var ctx = document.getElementById("lineChart").getContext("2d");
+            var lineChart = new Chart(ctx, {
+                type : "line",
+                data : {
+                labels : {{ labels | safe}},
+                datasets:[
+                    {    
+                    label : "SPO2",
+                    data : {{values1 | safe}},
+                    fill : false,
+                    borderColor : "rgb(75,192,192)",
+                    lineTension: 0.1
+                    },
+                    {    
+                    label : "Temperature",
+                    data : {{values2 | safe}},
+                    fill : false,
+                    borderColor : "rgb(235, 77, 85)",
+                    lineTension: 0.1
+                    }
+                ]
+            },
+            options : {
+                responsive : false
+            }
+        });
+        </script>     
+    </div>
+</div>
+</body>
+</html>
