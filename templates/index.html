@@ -56,10 +56,10 @@
               </form>
 
               <div id="form-message-warning mt-4"></div> 
-              <div id="form-message-success">
-                {%if msg%}
+              <div>
+                {% if msg %}
                   <p>{{msg}}</p>
-                {%endif%}
+                {% endif %}
               </div>
 
             </div>
